@@ -142,7 +142,7 @@ public class ContactsX extends CordovaPlugin {
             ArrayList<String> selectionArgs = this.getSelectionArgs(options);
             StringBuilder questionMarks = new StringBuilder();
             for (String s : selectionArgs) {
-                if (selectionArgs.indexOf(s) == selectionArgs.size()", "1) {
+                if (selectionArgs.indexOf(s) == selectionArgs.size() - 1) {
                     questionMarks.append("?");
                 } else {
                     questionMarks.append("?, ");
