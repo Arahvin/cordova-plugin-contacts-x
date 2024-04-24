@@ -233,21 +233,15 @@ public class ContactsX extends CordovaPlugin {
         try {
 
         if (contactsCursor != null && contactsCursor.getCount() > 0) {
-            Log.d("contactsCursor", "first");
             HashMap<Object, JSONObject> contactsById = new HashMap<>();
-            Log.d("contactsCursor", "second");
             while (contactsCursor.moveToNext()) {
-                Log.d("contactsCursor", "third");
                 String contactId = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
                 );
-                Log.d("contactsCursor", "fourth");
                 String rawId = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID)
                 );
-                Log.d("contactsCursor", "fifth");
                 JSONObject jsContact = new JSONObject();
-                Log.d("contactsCursor", "sixth");
                 if (!contactsById.containsKey(contactId)) {
                     // this contact does not yet exist in HashMap,
                     // so put it to the HashMap
@@ -268,53 +262,71 @@ public class ContactsX extends CordovaPlugin {
                 } else {
                     jsContact = contactsById.get(contactId);
                 }
-                Log.d("contactsCursor", "seventh");
 
                 String mimeType = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 );
-                Log.d("contactsCursor", "eigth");
+                Log.d("contactsCursor", "start");
                 assert jsContact != null;
+                Log.d("contactsCursor", "first");
                 switch (mimeType) {
                     case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
+                        Log.d("contactsCursor", "second");
                         JSONArray jsPhoneNumbers = jsContact.getJSONArray("phoneNumbers");
+                        Log.d("contactsCursor", "third");
                         jsPhoneNumbers.put(phoneQuery(contactsCursor, options));
+                        Log.d("contactsCursor", "fourth");
                         break;
                     case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
+                        Log.d("contactsCursor", "fifth");
                         JSONArray emailAddresses = jsContact.getJSONArray("emails");
+                        Log.d("contactsCursor", "sixth");
                         emailAddresses.put(emailQuery(contactsCursor));
+                        Log.d("contactsCursor", "sventh");
                         break;
                     case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:
+                    Log.d("contactsCursor", "eigth");
                         if (options.organizationName) {
+                            Log.d("contactsCursor", "ninth");
                             String organizationName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Organization.COMPANY));
+                            Log.d("contactsCursor", "tenth");
                             jsContact.put("organizationName", organizationName);
+                            Log.d("contactsCursor", "eleventh");
                         }
                         break;    
                     case ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE:
+                        Log.d("contactsCursor", "twelvth");
                         try {
+                            Log.d("contactsCursor", "13");
                             if (options.firstName) {
                                 String firstName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
                                 jsContact.put("firstName", firstName);
                             }
+                            Log.d("contactsCursor", "14");
                             if (options.middleName) {
                                 String middleName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME));
                                 jsContact.put("middleName", middleName);
                             }
+                            Log.d("contactsCursor", "15");
                             if (options.familyName) {
                                 String familyName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
                                 jsContact.put("familyName", familyName);
                             }
+                            Log.d("contactsCursor", "16");
                         } catch (IllegalArgumentException ignored) {
                         }
                         break;
                     default: {
+                        Log.d("contactsCursor", "17");
                         if (options.imageData) {
+                            Log.d("contactsCursor", "18");
                             String imageData = Base64.encodeToString(contactsCursor.getBlob(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Photo.PHOTO)), Base64.DEFAULT);
+                            Log.d("contactsCursor", "19");
                             jsContact.put("imageData", imageData);
                         }
                     }
                 }
-                Log.d("contactsCursor", "ninth");
+                Log.d("contactsCursor", "end");
 
                 contactsById.put(contactId, jsContact);
             }
