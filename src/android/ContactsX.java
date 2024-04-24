@@ -142,7 +142,7 @@ public class ContactsX extends CordovaPlugin {
             ArrayList<String> selectionArgs = this.getSelectionArgs(options);
             StringBuilder questionMarks = new StringBuilder();
             for (String s : selectionArgs) {
-                if (selectionArgs.indexOf(s) == selectionArgs.size() - 1) {
+                if (selectionArgs.indexOf(s) == selectionArgs.size()", "1) {
                     questionMarks.append("?");
                 } else {
                     questionMarks.append("?, ");
@@ -233,21 +233,21 @@ public class ContactsX extends CordovaPlugin {
         JSONArray jsContacts = new JSONArray();
 
         if (contactsCursor != null && contactsCursor.getCount() > 0) {
-            Log.d("contactsCursor - first");
+            Log.d("contactsCursor", "first");
             HashMap<Object, JSONObject> contactsById = new HashMap<>();
-            Log.d("contactsCursor - second");
+            Log.d("contactsCursor", "second");
             while (contactsCursor.moveToNext()) {
-                Log.d("contactsCursor - third");
+                Log.d("contactsCursor", "third");
                 String contactId = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
                 );
-                Log.d("contactsCursor - fourth");
+                Log.d("contactsCursor", "fourth");
                 String rawId = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID)
                 );
-                Log.d("contactsCursor - fifth");
+                Log.d("contactsCursor", "fifth");
                 JSONObject jsContact = new JSONObject();
-                Log.d("contactsCursor - sixth");
+                Log.d("contactsCursor", "sixth");
                 if (!contactsById.containsKey(contactId)) {
                     // this contact does not yet exist in HashMap,
                     // so put it to the HashMap
@@ -268,12 +268,12 @@ public class ContactsX extends CordovaPlugin {
                 } else {
                     jsContact = contactsById.get(contactId);
                 }
-                Log.d("contactsCursor - seventh");
+                Log.d("contactsCursor", "seventh");
 
                 String mimeType = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 );
-                Log.d("contactsCursor - eigth");
+                Log.d("contactsCursor", "eigth");
                 assert jsContact != null;
                 switch (mimeType) {
                     case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
@@ -314,7 +314,7 @@ public class ContactsX extends CordovaPlugin {
                         }
                     }
                 }
-                Log.d("contactsCursor - ninth");
+                Log.d("contactsCursor", "ninth");
 
                 contactsById.put(contactId, jsContact);
             }
