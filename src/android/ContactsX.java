@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.util.Base64;
+import android.util.Log;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -229,6 +230,8 @@ public class ContactsX extends CordovaPlugin {
     private JSONArray handleFindResult(Cursor contactsCursor, ContactsXFindOptions options) throws JSONException {
         // initialize array
         JSONArray jsContacts = new JSONArray();
+        Log.d("contactsCursor", contactsCursor+"");
+        Log.d("contactsCursor.getCount()", contactsCursor.getCount()+"");
 
         if (contactsCursor != null && contactsCursor.getCount() > 0) {
             HashMap<Object, JSONObject> contactsById = new HashMap<>();
