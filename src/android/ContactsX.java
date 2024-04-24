@@ -266,67 +266,46 @@ public class ContactsX extends CordovaPlugin {
                 String mimeType = contactsCursor.getString(
                         contactsCursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 );
-                Log.d("contactsCursor", "start");
                 assert jsContact != null;
-                Log.d("contactsCursor", "first");
                 switch (mimeType) {
                     case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
-                        Log.d("contactsCursor", "second");
                         JSONArray jsPhoneNumbers = jsContact.getJSONArray("phoneNumbers");
-                        Log.d("contactsCursor", "third");
                         jsPhoneNumbers.put(phoneQuery(contactsCursor, options));
-                        Log.d("contactsCursor", "fourth");
                         break;
                     case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
-                        Log.d("contactsCursor", "fifth");
                         JSONArray emailAddresses = jsContact.getJSONArray("emails");
-                        Log.d("contactsCursor", "sixth");
                         emailAddresses.put(emailQuery(contactsCursor));
-                        Log.d("contactsCursor", "sventh");
                         break;
                     case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:
-                    Log.d("contactsCursor", "eigth");
                         if (options.organizationName) {
-                            Log.d("contactsCursor", "ninth");
                             String organizationName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Organization.COMPANY));
-                            Log.d("contactsCursor", "tenth");
                             jsContact.put("organizationName", organizationName);
-                            Log.d("contactsCursor", "eleventh");
                         }
                         break;    
                     case ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE:
-                        Log.d("contactsCursor", "twelvth");
                         try {
-                            Log.d("contactsCursor", "13");
                             if (options.firstName) {
                                 String firstName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
                                 jsContact.put("firstName", firstName);
                             }
-                            Log.d("contactsCursor", "14");
                             if (options.middleName) {
                                 String middleName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME));
                                 jsContact.put("middleName", middleName);
                             }
-                            Log.d("contactsCursor", "15");
                             if (options.familyName) {
                                 String familyName = contactsCursor.getString(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
                                 jsContact.put("familyName", familyName);
                             }
-                            Log.d("contactsCursor", "16");
                         } catch (IllegalArgumentException ignored) {
                         }
                         break;
                     default: {
-                        Log.d("contactsCursor", "17");
                         if (options.imageData) {
-                            Log.d("contactsCursor", "18");
                             String imageData = Base64.encodeToString(contactsCursor.getBlob(contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Photo.PHOTO)), Base64.DEFAULT);
-                            Log.d("contactsCursor", "19");
                             jsContact.put("imageData", imageData);
                         }
                     }
                 }
-                Log.d("contactsCursor", "end");
 
                 contactsById.put(contactId, jsContact);
             }
