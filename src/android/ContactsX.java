@@ -228,9 +228,9 @@ public class ContactsX extends CordovaPlugin {
     }
 
     private JSONArray handleFindResult(Cursor contactsCursor, ContactsXFindOptions options) throws JSONException {
-        try {
-            // initialize array
+        // initialize array
         JSONArray jsContacts = new JSONArray();
+        try {
 
         if (contactsCursor != null && contactsCursor.getCount() > 0) {
             Log.d("contactsCursor", "first");
