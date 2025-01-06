@@ -351,7 +351,12 @@ import PhoneNumberKit
                     } else {
                         completionHandler(false)
                     }
-                }
+                case .limited:
+                    completionHandler(false)
+                @unknown default:
+                    completionHandler(false)
+            }
+        
     }
 
     func returnError(error: ErrorCodes, message: String = "") {
